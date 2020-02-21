@@ -87,6 +87,7 @@ def main():
             print(TAB_2 + 'Version: {}, Header Length: {}, TTL: {}'.format(version, header_length, ttl))
             print(TAB_3 + 'protocol: {}, Source: {}, Target: {}'.format(proto, src, target))
 
+'''
             # ICMP
             if proto == 1:
                 icmp_type, code, checksum, data = icmp_packet(data)
@@ -134,6 +135,6 @@ def main():
         else:
             print('Ethernet Data:')
             print(format_output_line(DATA_TAB_1, data))
-
+'''
 
 main()
