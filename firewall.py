@@ -21,7 +21,7 @@ def ipv4_packet(data):
     return version, header_length, ttl, proto, ipv4(src), ipv4(dest), data[header_length:]
 
 # Get readable IPv4 address (X.X.X.X)
-def ipv4(addr):
+def ipv4_addr(addr):
     return '.'.join(map(str, addr))
 
 # Unpack ICMP packet
@@ -81,8 +81,8 @@ def main():
             .format(dest_mac, src_mac, ether_proto))
 
         # IPv4
-        if eth_proto == 8:
-            (version, header_length, ttl, proto, src, target, data) = ipv4_Packet(data)
+        if ether_proto == 8:
+            (version, header_length, ttl, proto, src, target, data) = ipv4_packet(data)
             print(TAB_1 + "IPV4 Packet:")
             print(TAB_2 + 'Version: {}, Header Length: {}, TTL: {}'.format(version, header_length, ttl))
             print(TAB_3 + 'protocol: {}, Source: {}, Target: {}'.format(proto, src, target))
@@ -98,8 +98,8 @@ def main():
 
             # TCP
             elif proto == 6:
-                src_port, dest_port, sequence, acknowledgment, flag_urg, flag_ack, flag_psh, flag_rst, flag_syn, flag_fin = struct.unpack(
-            '! H H L L H H H H H H', raw_data[:24])
+                src_port, dest_port, sequence, acknowledgment, flag_urg, flag_ack, flag_psh, flag_rst, \
+                    flag_syn, flag_fin = struct.unpack('! H H L L H H H H H H', raw_data[:24])
                 print(TAB_1 + 'TCP Segment:')
                 print(TAB_2 + 'Source Port: {}, Destination Port: {}'.format(src_port, dest_port))
                 print(TAB_2 + 'Sequence: {}, Acknowledgment: {}'.format(sequence, acknowledgment))
@@ -125,7 +125,8 @@ def main():
             elif proto == 17:
                 src_port, dest_port, length, data = udp_seg(data)
                 print(TAB_1 + 'UDP Segment:')
-                print(TAB_2 + 'Source Port: {}, Destination Port: {}, Length: {}'.format(src_port, dest_port, length))
+                print(TAB_2 + 'Source Port: {}, Destination Port: {}, Length: {}'.format(src_port, \
+                    dest_port, length))
 
             # Other IPv4
             else:
