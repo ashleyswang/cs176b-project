@@ -5,7 +5,7 @@ import textwrap
 # Unpack ethernet frame
 def ethernet_frame(data):
     dest_mac, src_mac, proto = struct.unpack('! 6s 6s H', data[:14])
-    return mac_addr(dest_mac), mac_addr(src_mac), socket.htons(proto), data[:14]
+    return mac_addr(dest_mac), mac_addr(src_mac), socket.htons(proto), data[14:]
 
 # Get readable mac address (AA:BB:CC:DD:EE:FF)
 def mac_addr(byte_addr):
@@ -20,7 +20,7 @@ def ipv4_packet(data):
         version = version_header_len >> 4
         header_length = (version_header_len & 15) * 4
         ttl, proto, src, dest = struct.unpack('! 8x B B 2x 4s 4s', data[:20])
-        return version, header_length, ttl, proto, ipv4(src), ipv4(dest), data[header_length:]
+        return version, header_length, ttl, proto, ipv4_addr(src), ipv4_addr(dest), data[header_length:]
 
 # Get readable IPv4 address (X.X.X.X)
 def ipv4_addr(addr):
