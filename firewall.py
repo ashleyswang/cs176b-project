@@ -14,11 +14,13 @@ def mac_addr(byte_addr):
 
 # Unpack IPv4 frame
 def ipv4_packet(data):
-    version_header_len = data[0]
-    version = version_header_len >> 4
-    header_length = (version_header_len & 15) * 4
-    ttl, proto, src, dest = struct.unpack('! 8x B B 2x 4s 4s', data[:20])
-    return version, header_length, ttl, proto, ipv4(src), ipv4(dest), data[header_length:]
+    if (len(data) < 20): print('data length not 20. datalength: ', len(data))
+    else:
+        version_header_len = data[0]
+        version = version_header_len >> 4
+        header_length = (version_header_len & 15) * 4
+        ttl, proto, src, dest = struct.unpack('! 8x B B 2x 4s 4s', data[:20])
+        return version, header_length, ttl, proto, ipv4(src), ipv4(dest), data[header_length:]
 
 # Get readable IPv4 address (X.X.X.X)
 def ipv4_addr(addr):
@@ -77,7 +79,7 @@ def main():
     while(1):
         raw_data, addr = conn.recvfrom(65536)
         dest_mac, src_mac, ether_proto, data = ethernet_frame(raw_data)
-        print('\nEthernet Frame: \n\tDestination: {} \tSource: {} \tProtocol: {}'\
+        print('\nEthernet Frame: \nDestination: {} \tSource: {} \tProtocol: {}'\
             .format(dest_mac, src_mac, ether_proto))
 
         # IPv4
