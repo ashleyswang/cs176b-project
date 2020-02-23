@@ -51,10 +51,10 @@ def udp_seg(data):
     return src_port, dest_port, size, data[8:]
 
 # String constants for formatting
-TAB_1 = '\t - '
-TAB_2 = '\t\t - '
-TAB_3 = '\t\t\t - '
-TAB_4 = '\t\t\t\t - '
+TAB_1 = ' '*4
+TAB_2 = ' '*8
+TAB_3 = ' '*12
+TAB_4 = ' '*16
 
 DATA_TAB_1 = '\t   '
 DATA_TAB_2 = '\t\t   '
