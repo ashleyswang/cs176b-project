@@ -89,15 +89,6 @@ def main():
             print(TAB_2 + 'Version: {}, Header Length: {}, TTL: {}'.format(version, header_length, ttl))
             print(TAB_3 + 'protocol: {}, Source: {}, Target: {}'.format(proto, src, target))
 
-'''
-            # ICMP
-            if proto == 1:
-                icmp_type, code, checksum, data = icmp_packet(data)
-                print(TAB_1 + 'ICMP Packet:')
-                print(TAB_2 + 'Type: {}, Code: {}, Checksum: {},'.format(icmp_type, code, checksum))
-                print(TAB_2 + 'ICMP Data:')
-                print(format_output_line(DATA_TAB_3, data))
-'''
             # TCP
             if proto == 6:
                 src_port, dest_port, sequence, acknowledgment, flag_urg, flag_ack, flag_psh, flag_rst, \
@@ -124,7 +115,15 @@ def main():
                         print(TAB_2 + 'TCP Data:')
                         print(format_output_line(DATA_TAB_3, data))
    
- '''
+'''
+            # ICMP
+            if proto == 1:
+                icmp_type, code, checksum, data = icmp_packet(data)
+                print(TAB_1 + 'ICMP Packet:')
+                print(TAB_2 + 'Type: {}, Code: {}, Checksum: {},'.format(icmp_type, code, checksum))
+                print(TAB_2 + 'ICMP Data:')
+                print(format_output_line(DATA_TAB_3, data))
+
             # UDP
             elif proto == 17:
                 src_port, dest_port, length, data = udp_seg(data)
