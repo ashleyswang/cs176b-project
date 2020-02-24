@@ -12,13 +12,12 @@ outfile = open(outfile_name, "w")
 domain_names = infile.readlines()
 
 for line in domain_names:
-	if (line[0] == "#"):
-		continue
-	elif (line[:2] == "::"):
+	if (line[0] == "!"):
 		continue
 	else:
-		domain=line.split(" ")[1]
+		domain=line.strip("|^\n")
 		outfile.write(domain)
+		outfile.write("\n")
 		
 infile.close()
 outfile.close()
