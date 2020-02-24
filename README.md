@@ -12,14 +12,14 @@ The packet sniffer programs are located in the `sniffers` folder. `firewall.py` 
 
 All files for the implementation of the advertisement detection are in the folders labeled `get_domains_v*`. There are currently two versions of the script that provides this functionality. The version we intend on using is `get_domains_v2`.  The curated lists `hostnames.txt` and `adblock.txt` were taken from the repository https://github.com/notracking/hosts-blocklists. 
 
-Libraries used: 
-DNS Python: [http://www.dnspython.org/](http://www.dnspython.org/)
-Socket: [https://docs.python.org/3/library/socket.html](https://docs.python.org/3/library/socket.html)
-Numpy: [https://numpy.org/](https://numpy.org/)
+Libraries used: <br>
+DNS Python: [http://www.dnspython.org/](http://www.dnspython.org/) <br>
+Socket: [https://docs.python.org/3/library/socket.html](https://docs.python.org/3/library/socket.html) <br>
+Numpy: [https://numpy.org/](https://numpy.org/) <br>
 
 ### Packet Filter 
 Packet filtering implementation is located in the directory `packet_filter`. The current version of the program drops all packets, however we will add the conditional statements soon. 
 
-Libraries used: 
+Libraries used: <br>
 Python Netfilter Queue: [https://pypi.org/project/NetfilterQueue/](https://pypi.org/project/NetfilterQueue/)
 
