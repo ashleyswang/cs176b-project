@@ -2,8 +2,8 @@
 # Network Level Ad Block
 
 ### VPN: Configured using OpenVPN
-Guide used: https://raspberrytips.com/install-openvpn-raspberry-pi/
-\*Note: This guide is outdated and many of the instructions in the guide cannot be followed without additional procedures. For example, the `easyrsa` bashscript has been omitted/relocated in the newest version of OpenVPN and must be replaced in the correct directory.*
+Guide used: https://raspberrytips.com/install-openvpn-raspberry-pi/ <br>
+Note: This guide is outdated and many of the instructions in the guide cannot be followed without additional procedures. For example, the `easyrsa` bashscript has been omitted/relocated in the newest version of OpenVPN and must be replaced in the correct directory.*
 
 The configurations files for the OpenVPN API is not currently in the Github repository, but will be added later on. 
 
