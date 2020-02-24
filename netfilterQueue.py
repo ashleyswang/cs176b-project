@@ -2,7 +2,8 @@ from netfilterqueue import NetfilterQueue
 
 def print_and_accept(pkt):
     print(pkt)
-    pkt.accept()
+    pkt.drop()
+    print('packet has been dropped')
 
 nfqueue = NetfilterQueue()
 nfqueue.bind(1, print_and_accept)
