@@ -22,9 +22,9 @@ def get_ip(pkt):
 	data = data[:14]
 	# IPv4 packet
 	if ether_proto == 8:
-        ttl, proto, src, dest = struct.unpack('! 8x B B 2x 4s 4s', data[:20])
-        src_ip = '.'.join(map(str, src))
-        dest_ip = '.'.join(map(str, dest))
+        	ttl, proto, src, dest = struct.unpack('! 8x B B 2x 4s 4s', data[:20])
+        	src_ip = '.'.join(map(str, src))
+        	dest_ip = '.'.join(map(str, dest))
      	return src_ip, dest_ip
         
 def print_and_accept(pkt):
