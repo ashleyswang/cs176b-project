@@ -1,10 +1,9 @@
 from netfilterqueue import NetfilterQueue
-import socket
 import struct
 import textwrap
 import numpy as np
-import dns
 from dns import reversename, resolver
+import subprocess
 
 def lookup_domain(ip_addr):
     name = reversename.from_address(ip_addr)
@@ -38,11 +37,19 @@ def print_and_accept(pkt):
     else:
         pkt.accept()
 
-nfqueue = NetfilterQueue()
-nfqueue.bind(1, print_and_accept)
-try:
-    nfqueue.run()
-except KeyboardInterrupt:
-    print('')
+if __name__ == '__main__':
+    # add rule to ip table
+    subprocess.call("iptables -I INPUT -d 192.168.0.0/24 -j NFQUEUE —queue-num 1", shell=True)
 
-nfqueue.unbind()
+    nfqueue = NetfilterQueue()
+    nfqueue.bind(1, print_and_accept)
+    try:
+        nfqueue.run()
+    except KeyboardInterrupt:
+        print('')
+
+    nfqueue.unbind()
+
+    # remove rule from ip table
+    subprocess.call("iptables -F", shell=True)
+
