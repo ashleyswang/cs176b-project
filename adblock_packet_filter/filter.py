@@ -39,7 +39,7 @@ def print_and_accept(pkt):
 
 if __name__ == '__main__':
     # add rule to ip table
-    subprocess.call("iptables -I INPUT -d 192.168.0.0/24 -j NFQUEUE —queue-num 1", shell=True)
+    subprocess.call("iptables -I INPUT -d 192.168.0.0/24 -j NFQUEUE --queue-num 1", shell=True)
 
     nfqueue = NetfilterQueue()
     nfqueue.bind(1, print_and_accept)
