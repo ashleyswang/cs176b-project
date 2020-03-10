@@ -22,6 +22,7 @@ def get_ip(pkt):
     data = pkt.get_payload()
     dest_mac, src_mac, ether_proto = struct.unpack('! 6s 6s H', data[:14])
     data = data[:14]
+    print(ether_proto)
     # IPv4 packet
     if ether_proto == 8:
         ttl, proto, src, dest = struct.unpack('! 8x B B 2x 4s 4s', data[:20])
@@ -33,6 +34,7 @@ def get_ip(pkt):
 def print_and_accept(pkt):
     # print(pkt)
     src_ip, dest_ip = get_ip(pkt)
+    print(src_ip, dest_ip)
     if(is_ad(src_ip) or is_ad(dest_ip)):    
         pkt.drop()
         print('DROPPED PACKET\tSOURCE:', src_ip, '\tDEST', dest_ip)
