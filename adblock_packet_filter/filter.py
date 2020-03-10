@@ -8,12 +8,14 @@ import subprocess
 def lookup_domain(ip_addr):
     name = reversename.from_address(ip_addr)
     domain = str(resolver.query(name,"PTR")[0]).strip('.')
+    return domain
 
 def is_ad(ip_addr): 
     if ip_addr == None: return False
     domains = np.load("domains.npy")
     domain = lookup_domain(ip_addr)
     return_val = True if (domain in domains) else False
+    print("IP:", ip_addr, "DOMAIN:", domain)
     return return_val 
 
 def get_ip(pkt):
@@ -29,7 +31,7 @@ def get_ip(pkt):
     return None, None
         
 def print_and_accept(pkt):
-    print(pkt)
+    # print(pkt)
     src_ip, dest_ip = get_ip(pkt)
     if(is_ad(src_ip) or is_ad(dest_ip)):    
         pkt.drop()
