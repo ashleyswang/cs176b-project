@@ -4,36 +4,45 @@ import textwrap
 import numpy as np
 from dns import reversename, resolver
 import subprocess
+from scapy.all import *
 
 def lookup_domain(ip_addr):
     name = reversename.from_address(ip_addr)
-    domain = str(resolver.query(name,"PTR")[0]).strip('.')
-    return domain
+    try:
+        domain = str(resolver.query(name,"PTR")[0]).strip('.')
+        return domain
+    except:
+        return None
 
 def is_ad(ip_addr): 
-    if ip_addr == None: return False
-    domains = np.load("domains.npy")
+    #domains = np.load("domains.npy")
     domain = lookup_domain(ip_addr)
-    return_val = True if (domain in domains) else False
-    print("IP:", ip_addr, "DOMAIN:", domain)
-    return return_val 
+    print("\tIP:", ip_addr, "DOMAIN:", domain)
+    #if (domain is None): return False
+    #else: return (domain in domains)
 
+'''
 def get_ip(pkt):
     data = pkt.get_payload()
     print(data)
-
+    print(pkt.get_mark())
     dest_mac, src_mac, ether_proto = struct.unpack('! 6s 6s H', data[:14])
     data = data[:14]
     # IPv4 packet
-    if ether_proto == 8:
+    if ether_proto == 49320:
         ttl, proto, src, dest = struct.unpack('! 8x B B 2x 4s 4s', data[:20])
         src_ip = '.'.join(map(str, src))
         dest_ip = '.'.join(map(str, dest))
         return src_ip, dest_ip
     return None, None
-        
+'''   
+     
 def print_and_accept(pkt):
-    src_ip, dest_ip = get_ip(pkt)
+    print(pkt)
+    packet = IP(pkt.get_payload())
+    print(packet.dst, packet.src)
+    #is_ad(packet.src)
+    #is_ad(packet.dst)
     '''
     if(is_ad(src_ip) or is_ad(dest_ip)):    
         pkt.drop()
@@ -54,6 +63,8 @@ if __name__ == '__main__':
         nfqueue.run()
     except KeyboardInterrupt:
         print('')
+        nfqueue.unbind()
+        subprocess.call("iptables -F", shell=True)
 
     nfqueue.unbind()
 

@@ -78,6 +78,7 @@ def main():
 
     while(1):
         raw_data, addr = conn.recvfrom(65536)
+        print(raw_data)
         dest_mac, src_mac, ether_proto, data = ethernet_frame(raw_data)
         print('\nEthernet Frame: \nDestination: {} \tSource: {} \tProtocol: {}'\
             .format(dest_mac, src_mac, ether_proto))
