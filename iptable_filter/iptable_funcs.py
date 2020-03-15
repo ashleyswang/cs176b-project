@@ -49,6 +49,18 @@ def flush_rules():
 
 	print("Flushing rules")
 
-	
 # Allow to save set as numpy set and use for other programs
 # np.save("ip_ads.npy", domains)
+
+if __name__ == '__main__':
+	try: 
+		while(1):
+			# flush existing rules of iptable
+			flush_rules()
+			# get list of ips
+			domain_ips = get_ip()
+			# add rules to iptable
+			add_rules(domain_ips)
+	except KeyboardInterrupt: 
+		flush_rules()
+		exit(1)
