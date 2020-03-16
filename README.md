@@ -1,25 +1,21 @@
-
 # Network Level Ad Block
 
 ### VPN: Configured using OpenVPN
 Guide used: https://raspberrytips.com/install-openvpn-raspberry-pi/ <br>
 *Note: This guide is outdated and many of the instructions in the guide cannot be followed without additional procedures. For example, the `easyrsa` bashscript has been omitted/relocated in the newest version of OpenVPN and must be replaced in the correct directory.*
 
-The configurations files for the OpenVPN API is not currently in the Github repository, but will be added later on. 
+The configurations files for the OpenVPN API is located in the `vpn_conf` directory. Note that this only contains information not having to do with the security measures of the VPN (ie. no certificates/keys). 
 
-### Advertisement Detection
-The packet sniffer programs are located in the `sniffers` folder. `firewall.py` and `sniffer.py` are identical programs with different lines commented out. `sniffer2.py` is a tested packet sniffing code (that we did not write) that we used primarily for debugging. Using the sniffers, we can extract the destination IP address.
+### DNS: Configured using DNSMasq
+Guide used: https://wiki.archlinux.org/index.php/dnsmasq <br>
 
-All files for the implementation of the advertisement detection are in the folders labeled `get_domains_v*`. There are currently two versions of the script that provides this functionality. The version we intend on using is `get_domains_v2`.  The curated lists `hostnames.txt` and `adblock.txt` were taken from the repository https://github.com/notracking/hosts-blocklists. 
+The configuration files for the DNSMasq server is located in the `dns_conf` directory. This includes both lists for the DNS blacklast that were generated from https://github.com/notracking/hosts-blocklists. The code for the generating the `.conf` file is located in the `dns_blacklist` directory.
 
-Libraries used: <br>
-DNS Python: [http://www.dnspython.org/](http://www.dnspython.org/) <br>
-Socket: [https://docs.python.org/3/library/socket.html](https://docs.python.org/3/library/socket.html) <br>
-Numpy: [https://numpy.org/](https://numpy.org/) <br>
+### IP Tables Filter
+The code used to maintain the rules in the Raspberry Pi's IP tables is located in the `iptable_filter` directory. The code also uses the domain list generated from https://github.com/notracking/hosts-blocklists. 
 
-### Packet Filter 
-Packet filtering implementation is located in the directory `packet_filter`. The current version of the program drops all packets, however we will add the conditional statements soon. 
+### VPN Client
+The `.ovpn` files needed to connect to our VPN is in the `ovpns` directory. (There is 3 for Ryan to use on multiple devices and 3 for Prof. Almeroth. Please contact us if you need more `.ovpn` files.)
 
-Libraries used: <br>
-Python Netfilter Queue: [https://pypi.org/project/NetfilterQueue/](https://pypi.org/project/NetfilterQueue/)
-
+### Old Implementations
+Previous implementations of the project can be found in `adblock_packet_filter` (second attempt -- more front to back) and `helper_funcs` (first attempt -- contains more separate pieces of functions). 
