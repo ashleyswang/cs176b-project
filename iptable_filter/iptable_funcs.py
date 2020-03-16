@@ -1,7 +1,9 @@
-import numpy as np
-import dns
-from dns import resolver
+#import numpy as np
+#import dns
+#from dns import resolver
 import subprocess
+import time
+import socket
 
 ### IGNORE THIS ###
 # import dns.reversename
@@ -16,6 +18,7 @@ import subprocess
 
 # Reads domains and puts them into set
 def get_ip():
+	print("Getting list of IPs")
 	infile = open("domains.txt", "r")
 	domains = set()
 
@@ -24,17 +27,21 @@ def get_ip():
 
 	for d in domain_list: 
 		try:
-			result = resolver.query(d, 'A')
+			print(d.strip())
+			result = socket.getaddrinfo(d.strip(), 0, 0, 0, 0)
 			for ipval in result:
-				domains.add(ipval.to_text())
+				print("\t"+ipval[-1][0])
+				domains.add(ipval[-1][0])
 		except:
 			print("No results for", d)
 
+	print("IP List generated")
 	return domains
 
 # Domains is now a set of IP addresses
 # Adding IP tables filter
 def add_rules(domains):
+	print("Adding rules")
 	src_rule = 'iptables -I INPUT -s {} -j DROP'
 	dst_rule = 'iptables -I INPUT -d {} -j DROP'
 
@@ -57,10 +64,20 @@ if __name__ == '__main__':
 		while(1):
 			# flush existing rules of iptable
 			flush_rules()
+			# stop dnsmasq for nslookup
+			print("Stopping DNS server temporarily")
+			subprocess.call("service dnsmasq stop", shell=True)
+			print("DNS Server stopped")
 			# get list of ips
 			domain_ips = get_ip()
 			# add rules to iptable
 			add_rules(domain_ips)
+			# start up dnsmask
+			print("Starting DNS server")
+			subprocess.call("service dnsmasq start", shell=True)
+			subprocess.call("service dnsmasq status", shell=True)
+			# sleep until next day
+			time.sleep(86400)
 	except KeyboardInterrupt: 
 		flush_rules()
 		exit(1)
